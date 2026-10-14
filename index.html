@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Questionnaire</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f5f7;
+      color: #222;
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      width: min(420px, calc(100% - 64px));
+      box-shadow: 0 4px 20px #00000010;
+    }
+
+    .progress {
+      color: #666;
+      font-size: 14px;
+    }
+
+    #question { line-height: 1.5; min-height: 60px; }
+
+    button {
+      padding: 12px 20px;
+      margin: 8px 8px 8px 0;
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .yes { background: #2459a9; color: white; }
+    .no { background: #e8eaf0; color: #222; }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>My questionnaire</h1>
+
+    <p id="status">Loading questions...</p>
+
+    <section id="quiz" hidden>
+      <p class="progress" id="progress"></p>
+      <h2 id="question"></h2>
+      <button class="yes" onclick="answer(true)">Yes</button>
+      <button class="no" onclick="answer(false)">No</button>
+    </section>
+
+    <section id="result" hidden>
+      <h2>Your result</h2>
+      <p id="message"></p>
+      <p id="score"></p>
+      <button class="yes" onclick="restart()">Start again</button>
+    </section>
+  </main>
+
+  <script>
+    let questions = [];
+    let results = [];
+    let current = 0;
+    let totalScore = 0;
+
+    async function loadQuestions() {
+      try {
+        const response = await fetch("./questions.json");
+
+        if (!response.ok) {
+          throw new Error("Could not load questions.json");
+        }
+
+        const data = await response.json();
+        questions = data.questions;
+        results = data.results;
+
+        if (!questions.length || !results.length) {
+          throw new Error("No questions or results configured.");
+        }
+
+        document.getElementById("status").hidden = true;
+        document.getElementById("quiz").hidden = false;
+        renderQuestion();
+
+      } catch (error) {
+        document.getElementById("status").textContent =
+          "Unable to load the questionnaire. Please try again later.";
+        console.error(error);
+      }
+    }
+
+    function renderQuestion() {
+      document.getElementById("progress").textContent =
+        `Question ${current + 1} of ${questions.length}`;
+
+      document.getElementById("question").textContent =
+        questions[current].text;
+    }
+
+    function answer(isYes) {
+      const q = questions[current];
+      totalScore += isYes ? q.yes : q.no;
+      current++;
+
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById("quiz").hidden = true;
+      document.getElementById("result").hidden = false;
+
+      const result = results.find(
+        item => totalScore >= item.min_score
+      );
+
+      document.getElementById("message").textContent =
+        result ? result.message : "No result defined for this score.";
+
+      document.getElementById("score").textContent =
+        `Final score: ${totalScore}`;
+    }
+
+    function restart() {
+      current = 0;
+      totalScore = 0;
+
+      document.getElementById("result").hidden = true;
+      document.getElementById("quiz").hidden = false;
+
+      renderQuestion();
+    }
+
+    loadQuestions();
+  </script>
+</body>
+</html>
