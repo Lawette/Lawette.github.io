@@ -1,69 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dive Testing</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-    <main class="quiz-container">
-
-        <!-- Start screen -->
-        <section id="start-screen">
-            <h1>Is this bar a proper dive bar?</h1>
-
-            <button id="start-button">I want to know!</button>
-        </section>
-
-
-        <!-- Question screen -->
-        <section id="quiz-screen" class="hidden">
-
-            <div class="progress">
-                Question <span id="question-number">1</span>
-                of <span id="question-total">10</span>
-            </div>
-
-            <h2 id="question-text">
-                Question goes here
-            </h2>
-
-            <div class="answer-buttons">
-                <button id="yes-button">Yes</button>
-                <button id="no-button">No</button>
-            </div>
-
-        </section>
-
-
-        <!-- Results screen -->
-        <section id="result-screen" class="hidden">
-
-            <h1>Results</h1>
-
-            <p>
-                Your score:
-                <strong id="score">0</strong>
-                /
-                <span id="score-total">10</span>
-            </p>
-
-            <p id="result-message"></p>
-
-            <button id="restart-button">
-                Try Again
-            </button>
-
-        </section>
-
-    </main>
-
-    <script src="script.js"></script>
-
-</body>
+<!doctype html>
+<!--
+ @license
+ Copyright 2024 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <title>Complex Marker Icons</title>
+    <!-- jsFiddle will insert css and js -->
+  </head>
+  <body>
+    <gmp-map center="43.6530323,-79.4158238" zoom="15" map-id="DEMO_MAP_ID">
+            <gmp-advanced-marker
+                position="43.65451221199861, -79.40154801787338"
+                title="Rumble Pontiac"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.65505249371728, -79.40264135135081"
+                title="Ronnie's Local 069"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.65702788953344, -79.40571338720058"
+                title="Cloak & Dagger"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.65677785411902, -79.40697982728004"
+                title="Bistro 422"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.65635857478341, -79.4074644515398"
+                title="Sneaky Dee's"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.6552874816657, -79.41298575168926"
+                title="Ted's Collision & Body Repair"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.654729881086034, -79.42216857506376"
+                title="Houdstooth"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.648964392605905, -79.42219357875327"
+                title="Wasted Youth"></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="43.649228457727354, -79.42431913725311"
+                title="The Fountain"></gmp-advanced-marker>
+    </gmp-map>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=KEY&loading=async&libraries=marker&v=beta&solution_channel=GMP_CCS_complexmarkers_v3"
+      defer
+    ></script>
+  </body>
 </html>
